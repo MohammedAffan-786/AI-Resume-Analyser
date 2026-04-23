@@ -1,3 +1,14 @@
+import nltk
+import os
+
+# Set custom download path (important for Streamlit Cloud)
+nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
+os.makedirs(nltk_data_path, exist_ok=True)
+nltk.data.path.append(nltk_data_path)
+
+nltk.download('stopwords', download_dir=nltk_data_path)
+nltk.download('punkt', download_dir=nltk_data_path)
+
 import streamlit as st
 import pandas as pd
 import base64,random
@@ -16,19 +27,6 @@ import pymysql
 from Courses import ds_course,web_course,android_course,ios_course,uiux_course,resume_videos,interview_videos
 import pafy #for uploading youtube videos
 import plotly.express as px #to create visualisations at the admin session
-import nltk
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords')
-
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt')
-
-# NOW import pyresparser
-from pyresparser import ResumeParser
 
 def fetch_yt_video(link):
     try:
