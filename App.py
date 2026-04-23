@@ -27,6 +27,9 @@ try:
 except LookupError:
     nltk.download('punkt')
 
+# NOW import pyresparser
+from pyresparser import ResumeParser
+
 def fetch_yt_video(link):
     try:
         import pafy
