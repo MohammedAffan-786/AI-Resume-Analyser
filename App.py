@@ -155,6 +155,12 @@ CREATE TABLE IF NOT EXISTS user_data (
             resume_data = ResumeParser(save_image_path).get_extracted_data()
             if resume_data:
                 ## Get the whole resume data
+                import spacy
+                try:
+                    spacy.load("en_core_web_sm")
+                except:
+                    import os
+                    os.system("python -m spacy download en_core_web_sm")
                 resume_text = pdf_reader(save_image_path)
 
                 st.header("**Resume Analysis**")
