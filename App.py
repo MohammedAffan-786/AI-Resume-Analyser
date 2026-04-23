@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS user_data (
     Recommended_skills TEXT,
     Recommended_courses TEXT
 )
-""");
+"""
     cursor.execute(table_sql)
     if choice == 'User':
         st.markdown('''<h5 style='text-align: left; color: #021659;'> Upload your resume, and get smart recommendations</h5>''',
