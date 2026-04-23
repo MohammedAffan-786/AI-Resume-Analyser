@@ -17,8 +17,15 @@ from Courses import ds_course,web_course,android_course,ios_course,uiux_course,r
 import pafy #for uploading youtube videos
 import plotly.express as px #to create visualisations at the admin session
 import nltk
-nltk.download('stopwords')
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
 
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
 
 def fetch_yt_video(link):
     try:
