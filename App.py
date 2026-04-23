@@ -15,6 +15,7 @@ import base64,random
 import time,datetime
 #libraries to parse the resume pdf files
 from pyresparser import ResumeParser
+import spacy nlp = spacy.load("en_core_web_sm")
 from pdfminer.layout import LAParams, LTTextBox
 from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfinterp import PDFResourceManager
