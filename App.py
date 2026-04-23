@@ -123,11 +123,6 @@ def run():
     link = '[©Developed by Mohammed Affan](https://www.linkedin.com/in/mdaffan1)'
     st.sidebar.markdown(link, unsafe_allow_html=True)
 
-
-    # Create the DB
-    db_sql = """CREATE DATABASE IF NOT EXISTS CV;"""
-    cursor.execute(db_sql)
-
     # Create table
     DB_table_name = 'user_data'
     table_sql = """
