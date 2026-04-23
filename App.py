@@ -86,15 +86,26 @@ def course_recommender(course_list):
 
 #CONNECT TO DATABASE
 
-connection = pymysql.connect(host='localhost',user='root',password='Rckstr111#',db='cv')
+import sqlite3
+connection = sqlite3.connect('resume.db', check_same_thread=False)
 cursor = connection.cursor()
 
-def insert_data(name,email,res_score,timestamp,no_of_pages,reco_field,cand_level,skills,recommended_skills,courses):
-    DB_table_name = 'user_data'
-    insert_sql = "insert into " + DB_table_name + """
-    values (0,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-    rec_values = (name, email, str(res_score), timestamp,str(no_of_pages), reco_field, cand_level, skills,recommended_skills,courses)
-    cursor.execute(insert_sql, rec_values)
+def insert_data(name,email,res_score,timestamp,no_of_pages,
+                reco_field,cand_level,skills,recommended_skills,courses):
+
+    cursor.execute("""
+    INSERT INTO user_data (
+        Name, Email_ID, resume_score, Timestamp,
+        Page_no, Predicted_Field, User_level,
+        Actual_skills, Recommended_skills, Recommended_courses
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        name, email, res_score, timestamp,
+        no_of_pages, reco_field, cand_level,
+        skills, recommended_skills, courses
+    ))
+
     connection.commit()
 
 st.set_page_config(
@@ -119,20 +130,21 @@ def run():
 
     # Create table
     DB_table_name = 'user_data'
-    table_sql = "CREATE TABLE IF NOT EXISTS " + DB_table_name + """
-                    (ID INT NOT NULL AUTO_INCREMENT,
-                     Name varchar(500) NOT NULL,
-                     Email_ID VARCHAR(500) NOT NULL,
-                     resume_score VARCHAR(8) NOT NULL,
-                     Timestamp VARCHAR(50) NOT NULL,
-                     Page_no VARCHAR(5) NOT NULL,
-                     Predicted_Field BLOB NOT NULL,
-                     User_level BLOB NOT NULL,
-                     Actual_skills BLOB NOT NULL,
-                     Recommended_skills BLOB NOT NULL,
-                     Recommended_courses BLOB NOT NULL,
-                     PRIMARY KEY (ID));
-                    """
+    table_sql = """
+CREATE TABLE IF NOT EXISTS user_data (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT,
+    Email_ID TEXT,
+    resume_score TEXT,
+    Timestamp TEXT,
+    Page_no TEXT,
+    Predicted_Field TEXT,
+    User_level TEXT,
+    Actual_skills TEXT,
+    Recommended_skills TEXT,
+    Recommended_courses TEXT
+)
+""");
     cursor.execute(table_sql)
     if choice == 'User':
         st.markdown('''<h5 style='text-align: left; color: #021659;'> Upload your resume, and get smart recommendations</h5>''',
